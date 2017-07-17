@@ -49,7 +49,7 @@ public class MainActivity
         try {
             Log.e("performJcodec: ", "执行开始");
             SequenceEncoderMp4 se   = null;
-            File               file = new File(Constants.FILE_SCREEN_FLODER);
+            File               file = new File(Constants.FILE_PICTRUES_FLODER);
 
 
             File out = new File(Constants.FILE_FOLDER, "jcodec_enc.mp4");

@@ -35,6 +35,15 @@ import java.util.ArrayList;
 
 public class SequenceEncoderMp4
         extends org.jcodec.api.android.SequenceEncoder {
+
+    /**
+     * 控制帧率缩放,时间长度调整这个值
+     * 值越小,生成视频时间越长
+     * 如:timeScale = 50     一秒视屏采用50张图片
+     */
+    private int timeScale = 50;
+
+
     public SequenceEncoderMp4(File out)
             throws IOException
     {
@@ -45,7 +54,7 @@ public class SequenceEncoderMp4
         muxer = new MP4Muxer(ch, Brand.MP4);
 
         // Add video track to muxer
-        outTrack = muxer.addTrack(TrackType.VIDEO, 5);
+        outTrack = muxer.addTrack(TrackType.VIDEO, timeScale);
 
         // Allocate a buffer big enough to hold output frames
         _out = ByteBuffer.allocate(1920 * 1080 * 6);
@@ -93,7 +102,7 @@ public class SequenceEncoderMp4
         H264Utils.encodeMOVPacket(result);
 
         // Add packet to video track
-        outTrack.addFrame(new MP4Packet(result, frameNo, 5, 1, frameNo, true, null, frameNo, 0));
+        outTrack.addFrame(new MP4Packet(result, frameNo, timeScale, 1, frameNo, true, null, frameNo, 0));
 
         frameNo++;
     }
